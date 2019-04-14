@@ -79,9 +79,13 @@ class Server(object):
         :return: str
         """
 
-        # TODO: YOUR CODE HERE
+        room_description = {0: "You have entered a rustic foyer dimly lit by a candelabra on a table in the middle. Shadows flicker across the room.",
+                            1: "You walk into the library. The musty smell of old books overwhelms you.",
+                            2: "The dining room is ornately set with dust dancing across the one sliver of moonlight.",
+                            3: "You enter a room with no light, you hear a slight shuffle. Do you dare say hello?"
+                            }
 
-        pass
+        return room_description.get(room_number)
 
     def greet(self):
         """
@@ -109,8 +113,17 @@ class Server(object):
         """
 
         # TODO: YOUR CODE HERE
+        client_message = ""
+        while True:
 
-        pass
+            data = self.client_connection.recv(20).decode('utf8')
+            if data.find('\n'):
+                client_message += data
+                break
+            else:
+                client_message += data
+
+        return client_message
 
     def move(self, argument):
         """
