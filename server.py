@@ -164,9 +164,8 @@ class Server(object):
         :return: None
         """
 
-        # TODO: YOUR CODE HERE
+        self.output_buffer = f'You say, "{argument}"'
 
-        pass
 
     def quit(self, argument):
         """
@@ -180,9 +179,9 @@ class Server(object):
         :return: None
         """
 
-        # TODO: YOUR CODE HERE
+        self.done = True
+        self.output_buffer = "Goodbye!"
 
-        pass
 
     def route(self):
         """
@@ -210,9 +209,8 @@ class Server(object):
         :return: None 
         """
 
-        # TODO: YOUR CODE HERE
+        self.client_connection.sendall(b'f"OK! {self.output_buffer}\n"')
 
-        pass
 
     def serve(self):
         self.connect()
