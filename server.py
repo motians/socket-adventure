@@ -112,7 +112,6 @@ class Server(object):
         :return: None 
         """
 
-        # TODO: YOUR CODE HERE
         client_message = ""
         while True:
 
@@ -123,7 +122,7 @@ class Server(object):
             else:
                 client_message += data
 
-        return client_message
+        self.input_buffer = client_message
 
     def move(self, argument):
         """
@@ -146,9 +145,24 @@ class Server(object):
         :return: None
         """
 
-        # TODO: YOUR CODE HERE
+        if self.room == 0:
+            if argument == "north":
+                self.room = 3
+            elif argument == "east":
+                self.room = 2
+            elif argument == "west":
+                self.room = 1
+        elif self.room == 1:
+            if argument == "east":
+                self.room = 0
+        elif self.room == 2:
+            if argument == "west":
+                self.room = 0
+        elif self.room == 3:
+            if argument == "south":
+                self.room = 0
 
-        pass
+        self.output_buffer == self.room_description(self.room)
 
     def say(self, argument):
         """
@@ -166,7 +180,6 @@ class Server(object):
 
         self.output_buffer = f'You say, "{argument}"'
 
-
     def quit(self, argument):
         """
         Quits the client from the server.
@@ -181,7 +194,6 @@ class Server(object):
 
         self.done = True
         self.output_buffer = "Goodbye!"
-
 
     def route(self):
         """
@@ -210,7 +222,6 @@ class Server(object):
         """
 
         self.client_connection.sendall(b'f"OK! {self.output_buffer}\n"')
-
 
     def serve(self):
         self.connect()
