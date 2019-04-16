@@ -207,9 +207,16 @@ class Server(object):
         :return: None
         """
 
-        # TODO: YOUR CODE HERE
+        received = self.input_buffer.split(" ")
 
-        pass
+        command = received.pop(0)
+        arguments = " ".join(received)
+
+        {
+            'quit': self.quit,
+            'move': self.move,
+            'say': self.say
+        }[command](arguments)
 
     def push_output(self):
         """
