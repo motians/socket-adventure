@@ -112,17 +112,11 @@ class Server(object):
         :return: None 
         """
 
-        client_message = ""
-        while True:
+        received = b''
+        while b'\n' not in received:
+            received += self.client_connection.recv(16)
 
-            data = self.client_connection.recv(20).decode('utf8')
-            if data.find('\n'):
-                client_message += data
-                break
-            else:
-                client_message += data
-
-        self.input_buffer = client_message
+        self.input_buffer = received.decode()
 
     def move(self, argument):
         """
@@ -162,7 +156,7 @@ class Server(object):
             if argument == "south":
                 self.room = 0
 
-        self.output_buffer == self.room_description(self.room)
+        self.output_buffer = self.room_description(self.room)
 
     def say(self, argument):
         """
@@ -210,7 +204,7 @@ class Server(object):
         received = self.input_buffer.split(" ")
 
         command = received.pop(0)
-        arguments = " ".join(received)
+        arguments = " ".join(received).strip()
 
         {
             'quit': self.quit,
@@ -228,7 +222,7 @@ class Server(object):
         :return: None 
         """
 
-        self.client_connection.sendall(b'f"OK! {self.output_buffer}\n"')
+        self.client_connection.sendall(b"OK!" + self.output_buffer.encode() + b"\n")
 
     def serve(self):
         self.connect()
